@@ -22,7 +22,7 @@ allprojects {
 ```
 dependencies {
     ...
-    implementation 'com.github.Muzafferus:ImageList-Lib:1.0.0'
+    implementation 'com.github.Muzafferus:ImageList-Lib:1.0.1'
 }
 ```
 
@@ -50,6 +50,8 @@ Usage
 
 Changelog
 ---------
+* **1.0.1**
+    * RecyclerView list item error fix (child already has a parent)
 * **1.0.0**
     * Initial release
     
