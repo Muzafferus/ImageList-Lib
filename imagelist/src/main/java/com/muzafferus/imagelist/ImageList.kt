@@ -7,6 +7,7 @@ import android.graphics.drawable.shapes.RoundRectShape
 import android.util.AttributeSet
 import android.view.Gravity
 import android.view.View
+import android.view.ViewGroup
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
@@ -107,8 +108,14 @@ class ImageList(
                 return
             }
             image.id = View.generateViewId()
+
+            if (image.parent != null) {
+                (image.parent as ViewGroup).removeView(image)
+            }
             this.addView(image, 0)
+
             set.clone(this)
+
             set.connect(
                 image.id,
                 ConstraintSet.TOP,
@@ -174,8 +181,14 @@ class ImageList(
 
     private fun createText(set: ConstraintSet) {
         textView.id = View.generateViewId()
+
+        if (textView.parent != null) {
+            (textView.parent as ViewGroup).removeView(textView)
+        }
         this.addView(textView, 0)
+
         set.clone(this)
+
         set.connect(
             textView.id,
             ConstraintSet.TOP,
