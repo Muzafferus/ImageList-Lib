@@ -2,9 +2,9 @@
 ImageList-Lib
 ===============
 
-Android library for list of Images. This is based on [CircleImageView from  hdodenhof ](https://github.com/hdodenhof/CircleImageView).
+Android library for showing images side by side. This is based on [CircleImageView from  hdodenhof ](https://github.com/hdodenhof/CircleImageView).
 
-![ImageList-Lib](https://raw.githubusercontent.com/Muzafferus/ImageList-Lib/master/screenshot.jpg)
+<img src="https://raw.githubusercontent.com/Muzafferus/ImageList-Lib/master/screenshot.jpg" width="432" height="936">
 
 Used Glide for image.
 
@@ -38,6 +38,7 @@ Usage
 ```
 
 ```
+        val list:List<String>  = ArrayList();
         imageList.setImageCount(4)
         imageList.setImageList(list)
         imageList.setImageSize(50)
@@ -55,7 +56,7 @@ Changelog
 License
 --------
 
-       Copyright [2020] [Muzaffar Pashazada]
+       Copyright 2020 Muzaffar Pashazada
        
        Licensed under the Apache License, Version 2.0 (the "License");
        you may not use this file except in compliance with the License.
