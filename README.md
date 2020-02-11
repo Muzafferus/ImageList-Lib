@@ -1,3 +1,4 @@
+[![](https://jitpack.io/v/Muzafferus/ImageList-Lib.svg)](https://jitpack.io/#Muzafferus/ImageList-Lib)
 
 ImageList-Lib
 ===============
