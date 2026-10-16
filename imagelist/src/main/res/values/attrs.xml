@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="ImageListView">
+        <!-- How many items are drawn before the rest are folded into "+N". -1 = all. -->
+        <attr name="ilMaxVisible" format="integer" />
+        <!-- Side of every (square) item. -->
+        <attr name="ilItemSize" format="dimension" />
+        <!-- 0 = no overlap, 0.5 = half, 1 = fully stacked, negative = gap. -->
+        <attr name="ilOverlap" format="float" />
+        <attr name="ilOrientation" format="enum">
+            <enum name="horizontal" value="0" />
+            <enum name="vertical" value="1" />
+        </attr>
+        <attr name="ilZOrder" format="enum">
+            <enum name="firstOnTop" value="0" />
+            <enum name="lastOnTop" value="1" />
+        </attr>
+        <attr name="ilShape" format="enum">
+            <enum name="circle" value="0" />
+            <enum name="square" value="1" />
+            <enum name="rounded" value="2" />
+            <enum name="star" value="3" />
+            <enum name="hexagon" value="4" />
+            <enum name="heart" value="5" />
+        </attr>
+        <!-- Corner radius used by ilShape="rounded". -->
+        <attr name="ilCornerRadius" format="dimension" />
+        <attr name="ilBorderWidth" format="dimension" />
+        <attr name="ilBorderColor" format="color" />
+        <!-- Show the "+N" badge for the hidden items. -->
+        <attr name="ilShowBadge" format="boolean" />
+        <attr name="ilBadgeColor" format="color" />
+        <attr name="ilBadgeTextColor" format="color" />
+        <attr name="ilBadgeTextSize" format="dimension" />
+    </declare-styleable>
+</resources>

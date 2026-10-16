@@ -12,3 +12,10 @@
 /captures
 .externalNativeBuild
 .cxx
+
+build/
+
+.idea/
+*.iml
+local.properties
+.kotlin/

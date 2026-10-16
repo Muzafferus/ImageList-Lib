@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="20dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="22dp"
+            android:layout_marginBottom="8dp"
+            android:text="Default (from XML attributes only)"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <com.muzafferus.imagelist.ImageListView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="22dp"
+            android:layout_marginBottom="8dp"
+            android:text="Circle, white border, 64dp, 4 visible"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <com.muzafferus.imagelist.ImageListView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:ilItemSize="64dp"
+            app:ilMaxVisible="4"
+            app:ilBorderWidth="2dp"
+            app:ilBorderColor="#FFFFFF" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="22dp"
+            android:layout_marginBottom="8dp"
+            android:text="Rounded cards, 14dp corners"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <com.muzafferus.imagelist.ImageListView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/xmlCards"
+            app:ilShape="rounded"
+            app:ilCornerRadius="14dp"
+            app:ilOverlap="0.3"
+            app:ilBorderWidth="2dp"
+            app:ilBorderColor="#FFFFFF" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="22dp"
+            android:layout_marginBottom="8dp"
+            android:text="Star"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <com.muzafferus.imagelist.ImageListView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/xmlStars"
+            app:ilShape="star"
+            app:ilItemSize="64dp"
+            app:ilOverlap="0.25" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="22dp"
+            android:layout_marginBottom="8dp"
+            android:text="Hexagon"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <com.muzafferus.imagelist.ImageListView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/xmlHex"
+            app:ilShape="hexagon"
+            app:ilItemSize="64dp"
+            app:ilOverlap="0.2" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="22dp"
+            android:layout_marginBottom="8dp"
+            android:text="Heart"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <com.muzafferus.imagelist.ImageListView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/xmlHearts"
+            app:ilShape="heart"
+            app:ilItemSize="64dp"
+            app:ilOverlap="0.2" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="22dp"
+            android:layout_marginBottom="8dp"
+            android:text="Sharp squares, last on top"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <com.muzafferus.imagelist.ImageListView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:ilShape="square"
+            app:ilZOrder="lastOnTop"
+            app:ilOverlap="0.5"
+            app:ilBorderWidth="1dp"
+            app:ilBorderColor="#000000" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="22dp"
+            android:layout_marginBottom="8dp"
+            android:text="Vertical"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <com.muzafferus.imagelist.ImageListView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:ilOrientation="vertical"
+            app:ilOverlap="0.5"
+            app:ilBorderWidth="2dp"
+            app:ilBorderColor="#FFFFFF" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="22dp"
+            android:layout_marginBottom="8dp"
+            android:text="No overlap, gap between (negative)"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <com.muzafferus.imagelist.ImageListView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:ilOverlap="-0.15" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="22dp"
+            android:layout_marginBottom="8dp"
+            android:text="Everyone (ilMaxVisible = -1)"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <com.muzafferus.imagelist.ImageListView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:ilMaxVisible="-1"
+            app:ilItemSize="36dp"
+            app:ilOverlap="0.4"
+            app:ilBorderWidth="2dp"
+            app:ilBorderColor="#FFFFFF" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="22dp"
+            android:layout_marginBottom="8dp"
+            android:text="Badge hidden"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <com.muzafferus.imagelist.ImageListView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:ilShowBadge="false" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="22dp"
+            android:layout_marginBottom="8dp"
+            android:text="Custom badge colours"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <com.muzafferus.imagelist.ImageListView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:ilBadgeColor="#D81B60"
+            app:ilBadgeTextColor="#FFFFFF"
+            app:ilBadgeTextSize="16sp"
+            app:ilBorderWidth="2dp"
+            app:ilBorderColor="#FFFFFF" />
+    </LinearLayout>
+</ScrollView>

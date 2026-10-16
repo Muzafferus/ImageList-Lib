@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:minHeight="72dp"
+    android:orientation="horizontal"
+    android:paddingHorizontal="20dp"
+    android:paddingVertical="8dp">
+
+    <TextView
+        android:id="@+id/rowTitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:textSize="16sp" />
+
+    <com.muzafferus.imagelist.ImageListView
+        android:id="@+id/rowImages"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:ilBorderColor="#FFFFFF"
+        app:ilBorderWidth="2dp"
+        app:ilItemSize="44dp"
+        app:ilMaxVisible="3" />
+</LinearLayout>
