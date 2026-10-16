@@ -5,18 +5,22 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.key
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.Layout
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.unit.Dp
 import coil.compose.AsyncImage
 
 /**
- * Shows [items] side by side (overlapping by default) and collapses the ones that do not
- * fit into a "+N" badge.
+ * Shows [items] side by side (overlapping by default) and folds the ones that do not fit into
+ * a "+N" badge.
  *
  * Everything visual is yours: [itemContent] draws one item, [overflowContent] draws the badge,
  * [overlap] decides how items are arranged. Each slot is forced to be an [itemSize] square, so
@@ -24,55 +28,68 @@ import coil.compose.AsyncImage
  *
  * @param items data to show
  * @param maxVisible how many items are drawn before the rest are folded into the badge.
- *   Use [Int.MAX_VALUE] (default of [ImageListDefaults.Unlimited]) to show everything.
+ *   Negative values are treated as 0. Use [ImageListDefaults.Unlimited] to show everything.
  * @param itemSize side of every (square) slot
  * @param overlap placement strategy, see [Overlap]
- * @param zOrder which item is on top when they overlap
+ * @param zOrder which item is on top when they overlap (the overflow badge is always above all items)
+ * @param contentDescription accessibility description of the whole list (optional)
  * @param overflowContent badge for the hidden items; `null` to draw no badge at all
  * @param itemContent draws a single item
  */
 @Composable
-fun <T> ImageList(
+public fun <T> ImageList(
     items: List<T>,
     modifier: Modifier = Modifier,
     maxVisible: Int = ImageListDefaults.MaxVisible,
     itemSize: Dp = ImageListDefaults.ItemSize,
     overlap: Overlap = ImageListDefaults.Overlap,
     zOrder: ZOrder = ZOrder.FirstOnTop,
+    contentDescription: String? = null,
     overflowContent: (@Composable (hiddenCount: Int) -> Unit)? = { ImageListDefaults.OverflowBadge(it) },
     itemContent: @Composable (item: T, index: Int) -> Unit,
 ) {
-    val visible = maxVisible.coerceAtLeast(0).coerceAtMost(items.size)
+    val visible = maxVisible.coerceIn(0, items.size)
     val hidden = items.size - visible
+    val semanticsModifier = if (contentDescription != null) {
+        modifier.semantics { this.contentDescription = contentDescription }
+    } else {
+        modifier
+    }
 
     Layout(
-        modifier = modifier,
+        modifier = semanticsModifier,
         content = {
             for (index in 0 until visible) {
-                Box(propagateMinConstraints = true) { itemContent(items[index], index) }
+                key(index) {
+                    Box(propagateMinConstraints = true) { itemContent(items[index], index) }
+                }
             }
             if (hidden > 0 && overflowContent != null) {
                 Box(propagateMinConstraints = true) { overflowContent(hidden) }
             }
         },
     ) { measurables, _ ->
-        val sizePx = itemSize.roundToPx()
+        val sizePx = itemSize.roundToPx().coerceAtLeast(0)
         val childConstraints = Constraints.fixed(sizePx, sizePx)
         val placeables = measurables.map { it.measure(childConstraints) }
         val count = placeables.size
+        val hasBadge = hidden > 0 && overflowContent != null
 
         val offsets = List(count) { overlap.offset(it, count, sizePx, this) }
-        // Strategies may return negative values, normalise so nothing is clipped.
+        // Strategies may return negative values; normalise so nothing is clipped.
         val minX = offsets.minOfOrNull { it.x } ?: 0
         val minY = offsets.minOfOrNull { it.y } ?: 0
-        val width = (offsets.maxOfOrNull { it.x } ?: 0) - minX + if (count > 0) sizePx else 0
-        val height = (offsets.maxOfOrNull { it.y } ?: 0) - minY + if (count > 0) sizePx else 0
+        val width = if (count == 0) 0 else offsets.maxOf { it.x } - minX + sizePx
+        val height = if (count == 0) 0 else offsets.maxOf { it.y } - minY + sizePx
 
         layout(width, height) {
             placeables.forEachIndexed { index, placeable ->
-                val z = when (zOrder) {
-                    ZOrder.FirstOnTop -> (count - index).toFloat()
-                    ZOrder.LastOnTop -> index.toFloat()
+                val isBadge = hasBadge && index == count - 1
+                val z = when {
+                    // The badge is always on top, otherwise its text would be hidden by the items.
+                    isBadge -> count + 1f
+                    zOrder == ZOrder.FirstOnTop -> (count - index).toFloat()
+                    else -> index.toFloat()
                 }
                 placeable.placeRelative(offsets[index].x - minX, offsets[index].y - minY, z)
             }
@@ -85,9 +102,12 @@ fun <T> ImageList(
  *
  * @param shape any [Shape]: `CircleShape`, `RoundedCornerShape(8.dp)`, [StarShape], your own...
  * @param border optional outline drawn with the same [shape]
+ * @param placeholder painter shown while loading
+ * @param error painter shown when loading fails
+ * @param itemContentDescription accessibility description of the item at the given index
  */
 @Composable
-fun UrlImageList(
+public fun UrlImageList(
     urls: List<String>,
     modifier: Modifier = Modifier,
     maxVisible: Int = ImageListDefaults.MaxVisible,
@@ -96,6 +116,10 @@ fun UrlImageList(
     zOrder: ZOrder = ZOrder.FirstOnTop,
     shape: Shape = CircleShape,
     border: BorderStroke? = null,
+    placeholder: Painter? = null,
+    error: Painter? = null,
+    contentDescription: String? = null,
+    itemContentDescription: (index: Int) -> String? = { null },
     overflowContent: (@Composable (hiddenCount: Int) -> Unit)? = {
         ImageListDefaults.OverflowBadge(it, shape = shape, border = border)
     },
@@ -107,12 +131,15 @@ fun UrlImageList(
         itemSize = itemSize,
         overlap = overlap,
         zOrder = zOrder,
+        contentDescription = contentDescription,
         overflowContent = overflowContent,
-    ) { url, _ ->
+    ) { url, index ->
         AsyncImage(
             model = url,
-            contentDescription = null,
+            contentDescription = itemContentDescription(index),
             contentScale = ContentScale.Crop,
+            placeholder = placeholder,
+            error = error,
             modifier = Modifier
                 .clip(shape)
                 .then(if (border != null) Modifier.border(border, shape) else Modifier),

@@ -1,9 +1,11 @@
 plugins {
-    id("com.android.library")
-    id("org.jetbrains.kotlin.android")
-    id("org.jetbrains.kotlin.plugin.compose")
+    alias(libs.plugins.android.library)
+    alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.kotlin.compose)
     id("maven-publish")
 }
+
+val libraryVersion = "2.0.0"
 
 android {
     namespace = "com.muzafferus.imagelist"
@@ -22,8 +24,14 @@ android {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
     }
-    kotlinOptions {
-        jvmTarget = "17"
+
+    testOptions {
+        unitTests.isIncludeAndroidResources = true
+    }
+
+    lint {
+        warningsAsErrors = true
+        abortOnError = true
     }
 
     publishing {
@@ -33,16 +41,27 @@ android {
     }
 }
 
+kotlin {
+    explicitApi()
+    compilerOptions {
+        jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17)
+    }
+}
+
 dependencies {
-    val composeBom = platform("androidx.compose:compose-bom:2024.10.01")
-    implementation(composeBom)
-    implementation("androidx.compose.ui:ui")
-    implementation("androidx.compose.foundation:foundation")
+    implementation(platform(libs.compose.bom))
+    api(libs.compose.ui)
+    api(libs.compose.foundation)
 
-    // Only used by the URL based convenience overload (UrlImageList).
-    implementation("io.coil-kt:coil-compose:2.7.0")
+    // Used by UrlImageList / ImageListView to load urls.
+    implementation(libs.coil.compose)
 
-    testImplementation("junit:junit:4.13.2")
+    testImplementation(libs.junit)
+    testImplementation(libs.robolectric)
+    testImplementation(platform(libs.compose.bom))
+    testImplementation(libs.compose.ui.test.junit4)
+    debugImplementation(platform(libs.compose.bom))
+    debugImplementation(libs.compose.ui.test.manifest)
 }
 
 afterEvaluate {
@@ -51,7 +70,7 @@ afterEvaluate {
             register<MavenPublication>("release") {
                 groupId = "com.github.Muzafferus"
                 artifactId = "ImageList-Lib"
-                version = "2.0.0"
+                version = libraryVersion
                 from(components["release"])
             }
         }

@@ -17,19 +17,21 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
-object ImageListDefaults {
-    const val MaxVisible: Int = 3
-    const val Unlimited: Int = Int.MAX_VALUE
-    val ItemSize = 50.dp
-    val Overlap: com.muzafferus.imagelist.Overlap = com.muzafferus.imagelist.Overlap.fraction(0.5f)
+/** Default values used by [ImageList] and [UrlImageList]. */
+public object ImageListDefaults {
+    public const val MaxVisible: Int = 3
+    public const val Unlimited: Int = Int.MAX_VALUE
+    public val ItemSize: androidx.compose.ui.unit.Dp = 50.dp
+    public val Overlap: com.muzafferus.imagelist.Overlap = com.muzafferus.imagelist.Overlap.fraction(0.5f)
+    public val BadgeColor: Color = Color(0xFF00574B)
 
     /** The default "+N" badge. Replace it through `overflowContent` for a custom one. */
     @Composable
-    fun OverflowBadge(
+    public fun OverflowBadge(
         hiddenCount: Int,
         modifier: Modifier = Modifier,
         shape: Shape = CircleShape,
-        containerColor: Color = Color(0xFF00574B),
+        containerColor: Color = BadgeColor,
         contentColor: Color = Color.White,
         textStyle: TextStyle = TextStyle(fontSize = 12.sp),
         border: BorderStroke? = null,
